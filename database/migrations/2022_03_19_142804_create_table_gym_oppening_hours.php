@@ -18,7 +18,7 @@ class CreateTableGymOppeningHours extends Migration
             $table->unsignedBigInteger("gym_id");
             $table->time("openning_hour");
             $table->time("closing_hour");
-            $table->string("week_day");
+            $table->integer("week_day");
             $table->timestamps();
 
             $table->foreign("gym_id")->references("id")->on("gyms");

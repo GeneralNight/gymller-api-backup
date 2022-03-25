@@ -19,6 +19,10 @@ $router->get('/', function () use ($router) {
 
 Route::get('/login', 'Auth\AuthController@login');
 Route::post('/gym/store', 'GymController@store');
+Route::get('/gym/{gymId}/oppening-hours/', 'OppeningHourController@all');
+Route::post('/oppening-hours/store', 'OppeningHourController@store');
+Route::put('/oppening-hours/update/{weekDay}', 'OppeningHourController@update');
+Route::delete('/oppening-hours/delete/{gymId}/{hourId}', 'OppeningHourController@delete');
 
 Route::group(['middleware' => 'auth:api'], function () {
 
