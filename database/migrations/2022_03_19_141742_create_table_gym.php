@@ -17,14 +17,17 @@ class CreateTableGym extends Migration
             $table->id();
             $table->string('name');
             $table->string('cnpj');
+            $table->string('cep');
             $table->string('city');
             $table->string('state');
             $table->string('address');
-            $table->string('cep');
             $table->string('number');
+            $table->string('neighborhood');
             $table->string('email');
             $table->string('phone');
             $table->string('slug');
+            $table->string('user');
+            $table->string('password');
             $table->boolean('status')->default(false);
             $table->timestamps();
         });
