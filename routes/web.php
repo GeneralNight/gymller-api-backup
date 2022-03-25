@@ -18,8 +18,9 @@ $router->get('/', function () use ($router) {
 });
 
 Route::get('/login', 'Auth\AuthController@login');
-Route::group(['middleware' => 'auth:api'], function () {
+Route::post('/gym/store', 'Auth\GymController@store');
 
+Route::group(['middleware' => 'auth:api'], function () {
 
 
 });

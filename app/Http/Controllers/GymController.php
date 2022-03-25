@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
-class AdminController extends Controller
+class GymController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -18,13 +18,10 @@ class AdminController extends Controller
         //
     }
 
-
-    public function index(Request $request) {
-
-    }
-
     public function store(Request $request) {
+        $data = $request->all();
 
+        dd($data);
     }
 
     //
