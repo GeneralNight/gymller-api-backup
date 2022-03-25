@@ -51,7 +51,7 @@ class OppeningHourController extends Controller
         $alreadyHour = GymOppeningHour::where([
             ["week_day",intVal($data["week_day"])],
             ["gym_id",intVal($data["gym_id"])]
-        ])->count();
+        ])->count() || 0;
 
         if($alreadyHour > 0) {
             return response()->json([
