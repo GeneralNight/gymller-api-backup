@@ -26,7 +26,7 @@ class CreateTableGym extends Migration
             $table->string('email');
             $table->string('phone');
             $table->string('slug');
-            $table->string('user');
+            $table->string('username');
             $table->string('password');
             $table->boolean('status')->default(false);
             $table->timestamps();
