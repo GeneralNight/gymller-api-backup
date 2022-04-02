@@ -28,6 +28,18 @@ Route::delete('/gym/{gymId}/oppening-hours/delete/{weekDay}', 'OppeningHourContr
 
 Route::get('/gym/{gymId}/workers/', 'GymWorkerController@all');
 Route::post('/gym/{gymId}/workers/store', 'GymWorkerController@store');
+Route::put('/gym/{gymId}/workers/{workerId}/update', 'GymWorkerController@update');
+Route::delete('/gym/{gymId}/workers/{workerId}/delete', 'GymWorkerController@delete');
+
+Route::get('/permissions-category', 'PermissionsCategoryController@all');
+Route::post('/permissions-category/store', 'PermissionsCategoryController@store');
+Route::put('/permissions-category/{permCatId}/update', 'PermissionsCategoryController@update');
+Route::delete('/permissions-category/{permCatId}/delete', 'PermissionsCategoryController@delete');
+
+Route::get('/permissions', 'PermissionsController@all');
+Route::post('/permissions/store', 'PermissionsController@store');
+Route::put('/permissions/{permId}/update', 'PermissionsController@update');
+Route::delete('/permissions/{permId}/delete', 'PermissionsController@delete');
 
 Route::get('/gym/{gymId}/positions/', 'GymPositionsController@all');
 Route::post('/gym/{gymId}/positions/store', 'GymPositionsController@store');

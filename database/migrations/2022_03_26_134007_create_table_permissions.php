@@ -19,7 +19,7 @@ class CreateTablePermissions extends Migration
             $table->string("description");
             $table->timestamps();
 
-            $table->foreign("permission_category_id")->references("id")->on("permissions_category");
+            $table->foreign("permission_category_id")->references("id")->on("permissions_categories");
         });
     }
 

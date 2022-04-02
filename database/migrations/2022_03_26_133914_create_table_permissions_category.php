@@ -13,7 +13,7 @@ class CreateTablePermissionsCategory extends Migration
      */
     public function up()
     {
-        Schema::create('permissions_category', function (Blueprint $table) {
+        Schema::create('permissions_categories', function (Blueprint $table) {
             $table->id();
             $table->string("description");
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreateTablePermissionsCategory extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('permissions_category');
+        Schema::dropIfExists('permissions_categories');
     }
 }
