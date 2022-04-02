@@ -13,7 +13,7 @@ class CreateTableGymWorker extends Migration
      */
     public function up()
     {
-        Schema::create('gym_worker', function (Blueprint $table) {
+        Schema::create('gym_workers', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("gym_id");
             $table->string("name");

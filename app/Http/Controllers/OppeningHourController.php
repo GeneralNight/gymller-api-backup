@@ -37,9 +37,9 @@ class OppeningHourController extends Controller
         ]);
     }
 
-    public function store(Request $request) {
+    public function store(Request $request, $gymId) {
         $data = $request->all();
-        $gymExist = Gym::where("id",intVal($data["gym_id"]))->count() || 0;
+        $gymExist = Gym::where("id",intVal($gymId))->count() || 0;
 
         if($gymExist == 0) {
             return response()->json([
@@ -50,7 +50,7 @@ class OppeningHourController extends Controller
 
         $alreadyHour = GymOppeningHour::where([
             ["week_day",intVal($data["week_day"])],
-            ["gym_id",intVal($data["gym_id"])]
+            ["gym_id",intVal($gymId)]
         ])->count() || 0;
 
         if($alreadyHour > 0) {
@@ -60,15 +60,17 @@ class OppeningHourController extends Controller
             ]);
         }
 
+        $data["gym_id"] = intVal($gymId);
+
         return response()->json([
             "msg"=> "success",
             "data"=> GymOppeningHour::create($data)
         ]);
     }
 
-    public function update(Request $request, $weekDay) {
+    public function update(Request $request, $gymId, $weekDay) {
         $data = $request->all();
-        $gymExist = Gym::where("id",intVal($data["gym_id"]))->count() || 0;
+        $gymExist = Gym::where("id",intVal($gymId))->count() || 0;
 
         if($gymExist == 0) {
             return response()->json([
@@ -77,10 +79,18 @@ class OppeningHourController extends Controller
             ]);
         }
 
+
         $currentHour = GymOppeningHour::where([
             ["week_day",intVal($weekDay)],
-            ["gym_id",intVal($data["gym_id"])]
+            ["gym_id",intVal($gymId)]
         ])->first();
+
+        if(!$currentHour) {
+            return response()->json([
+                "msg"=> "error",
+                "data"=> "There's any oppening hour in this week day yet"
+            ]);
+        }
 
         $currentHour->openning_hour = $data["openning_hour"];
         $currentHour->closing_hour = $data["closing_hour"];
@@ -92,7 +102,7 @@ class OppeningHourController extends Controller
         ]);
     }
 
-    public function delete($gymId,$hourId) {
+    public function delete($gymId,$weekDay) {
         $gymExist = Gym::where("id",intVal($gymId))->count() || 0;
 
         if($gymExist == 0) {
@@ -103,20 +113,20 @@ class OppeningHourController extends Controller
         }
 
         $hourExist = GymOppeningHour::where([
-            ["id",intVal($hourId)],
+            ["week_day",intVal($weekDay)],
             ["gym_id",intVal($gymId)]
-        ])->count();
+        ])->first();
 
-        if($hourExist == 0) {
+        if(!$hourExist) {
             return response()->json([
                 "msg"=> "error",
-                "data"=> "There's any hour with this params"
+                "data"=> "There's any hour in this week day"
             ]);
         }
 
         return response()->json([
             "msg" => "success",
-            "data" => GymOppeningHour::find($hourId)->delete()
+            "data" => GymOppeningHour::find($hourExist["id"])->delete()
         ]);
     }
 

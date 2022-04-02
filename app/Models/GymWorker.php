@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Laravel\Lumen\Auth\Authorizable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class Worker extends Model
+class GymWorker extends Model
 {
     use Authenticatable, Authorizable, HasFactory;
 

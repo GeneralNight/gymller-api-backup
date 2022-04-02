@@ -27,7 +27,8 @@ class GymController extends Controller
         if($gymExist) {
             return response()->json([
                 "msg"=> "error",
-                "data"=> "A gym already exist in this slug"
+                "data"=> "A gym already exist in this slug",
+                "code" => 001
             ]);
         }
 

@@ -21,7 +21,7 @@ class Gym extends Model
      */
     protected $fillable = [
         'name', 'cnpj', 'cep', 'city', 'state', 'address', 'number',
-        'email', 'phone', 'slug', 'user', 'password', 'status', 'neighborhood'
+        'email', 'phone', 'slug', 'username', 'password', 'status', 'neighborhood'
     ];
 
     /**
