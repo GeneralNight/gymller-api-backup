@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Gym;
 use App\Models\GymPositions;
+use App\Models\GymWorker;
 use Illuminate\Http\Request;
 
 class GymPositionsController extends Controller
@@ -18,10 +19,10 @@ class GymPositionsController extends Controller
         //
     }
 
-    public function all($gymId) {
-        $gymExist = Gym::where("id",intVal($gymId))->count() || 0;
+    public function all($slug) {
+        $gymExist = Gym::where("slug",$slug)->first();
 
-        if($gymExist == 0) {
+        if(!$gymExist) {
             return response()->json([
                 "msg"=> "error",
                 "data"=> "There's any gym with this id"
@@ -30,34 +31,67 @@ class GymPositionsController extends Controller
 
         return response()->json([
             "msg"=> "success",
-            "data"=> GymPositions::where("gym_id",intVal($gymId))->get()
+            "data"=> GymPositions::where("gym_id",intVal($gymExist->id))->get()
         ]);
     }
 
-    public function store(Request $request, $gymId) {
-        $data = $request->all();
-        $gymExist = Gym::where("id",intVal($gymId))->count() || 0;
+    public function index($slug,$positionId) {
+        $gymExist = Gym::where("slug",$slug)->first();
 
-        if($gymExist == 0) {
+        if(!$gymExist) {
             return response()->json([
                 "msg"=> "error",
-                "data"=> "There's any gym with this id"
+                "data"=> "There's any gym with this id",
+                "code"=> "001"
             ]);
         }
 
         $positionExist = GymPositions::where([
-            "gym_id" => intVal($gymId),
+            "gym_id" => $gymExist->id,
+            "id" => $positionId
+        ])->first();
+
+        if(!$positionExist) {
+            return response()->json([
+                "msg"=> "error",
+                "data"=> "There's any position with this id",
+                "code"=> "002"
+            ]);
+        }
+
+        return response()->json([
+            "msg"=> "success",
+            "data" => $positionExist
+        ]);
+
+    }
+
+    public function store(Request $request, $slug) {
+        $data = $request->all();
+        $gymExist = Gym::where("slug",$slug)->first();
+
+        if(!$gymExist) {
+            return response()->json([
+                "msg"=> "error",
+                "data"=> "There's any gym with this id",
+                "code" => "001"
+            ]);
+        }
+
+        $positionExist = GymPositions::where([
+            "gym_id" => intVal($gymExist->id),
             "name" => $data["name"]
         ])->count();
 
         if($positionExist > 0) {
             return response()->json([
                 "msg"=> "error",
-                "data"=> "There's a position with this name already"
+                "data"=> "There's a position with this name already",
+                "code" => "002"
             ]);
         }
 
-        $data["gym_id"] = $gymId;
+        $data["gym_id"] = $gymExist->id;
 
         return response()->json([
             "msg" => "success",
@@ -65,44 +99,47 @@ class GymPositionsController extends Controller
         ]);
     }
 
-    public function update(Request $request, $gymId, $positionId) {
+    public function update(Request $request, $slug, $positionId) {
         $data = $request->all();
-        $gymExist = Gym::where("id",intVal($gymId))->count() || 0;
+        $gymExist = Gym::where("slug",$slug)->first();
 
-        if($gymExist == 0) {
+        if(!$gymExist) {
             return response()->json([
                 "msg"=> "error",
-                "data"=> "There's any gym with this id"
+                "data"=> "There's any gym with this id",
+                "code" => '001'
             ]);
         }
 
         $positionExist = GymPositions::where([
-            "gym_id" => intVal($gymId),
+            "gym_id" => intVal($gymExist->id),
             "id" => intVal($positionId)
         ])->count();
 
         if($positionExist == 0) {
             return response()->json([
                 "msg"=> "error",
-                "data"=> "There's any position with this params"
+                "data"=> "There's any position with this params",
+                "code" => '002'
             ]);
         }
 
         $positionExistWithEditedName = GymPositions::where([
-            "gym_id" => intVal($gymId),
+            "gym_id" => intVal($gymExist->id),
             "name" => $data["name"]
         ])->count();
 
         if($positionExistWithEditedName > 0) {
             return response()->json([
                 "msg"=> "error",
-                "data"=> "There's a position with this name already"
+                "data"=> "There's a position with this name already",
+                "code" => '003'
             ]);
         }
 
         $positionToUpdate = GymPositions::where([
             "id" => intVal($positionId),
-            "gym_id" => intVal($gymId)
+            "gym_id" => intVal($gymExist->id)
         ])->first();
 
         $positionToUpdate->name = $data["name"];
@@ -114,26 +151,42 @@ class GymPositionsController extends Controller
         ]);
     }
 
-    public function delete($gymId,$positionId) {
+    public function delete($slug,$positionId) {
         $gymExist = Gym::where([
-            "id" => intVal($gymId),
-        ])->count() || 0;
+            "slug" => $slug,
+        ])->first();
 
-        if($gymExist == 0) {
+        if(!$gymExist) {
             return response()->json([
                 "msg"=> "error",
-                "data"=> "There's any gym with this id"
+                "data"=> "There's any gym with this id",
+                "code" => "001"
             ]);
         }
 
         $positionExist = GymPositions::where([
             "id" => intVal($positionId),
+            "gym_id" => intVal($gymExist->id)
         ])->count() || 0;
 
         if($positionExist == 0) {
             return response()->json([
                 "msg"=> "error",
-                "data"=> "There's any position with this params"
+                "data"=> "There's any position with this params",
+                "code" => '002'
+            ]);
+        }
+
+        $workersInThisPosition = GymWorker::where([
+            "gym_id" => intVal($gymExist->id),
+            "position_id" => intVal($positionId),
+        ])->first();
+
+        if($workersInThisPosition) {
+            return response()->json([
+                "msg"=> "error",
+                "data"=> "There's some worker in this position",
+                "code" => '003'
             ]);
         }
 

@@ -21,15 +21,17 @@ Route::get('/login', 'Auth\AuthController@login');
 
 Route::post('/gym/store', 'GymController@store');
 
-Route::get('/gym/{gymId}/oppening-hours/', 'OppeningHourController@all');
-Route::post('/gym/{gymId}/oppening-hours/store', 'OppeningHourController@store');
-Route::put('/gym/{gymId}/oppening-hours/update/{weekDay}', 'OppeningHourController@update');
-Route::delete('/gym/{gymId}/oppening-hours/delete/{weekDay}', 'OppeningHourController@delete');
+Route::get('/gym/{slug}/oppening-hours/', 'OppeningHourController@all');
+Route::get('/gym/{slug}/oppening-hours/{weekDay}', 'OppeningHourController@index');
+Route::post('/gym/{slug}/oppening-hours/store', 'OppeningHourController@store');
+Route::put('/gym/{slug}/oppening-hours/{weekDay}/update', 'OppeningHourController@update');
+Route::delete('/gym/{slug}/oppening-hours/delete/{weekDay}', 'OppeningHourController@delete');
 
-Route::get('/gym/{gymId}/workers/', 'GymWorkerController@all');
-Route::post('/gym/{gymId}/workers/store', 'GymWorkerController@store');
-Route::put('/gym/{gymId}/workers/{workerId}/update', 'GymWorkerController@update');
-Route::delete('/gym/{gymId}/workers/{workerId}/delete', 'GymWorkerController@delete');
+Route::get('/gym/{slug}/workers/', 'GymWorkerController@all');
+Route::get('/gym/{slug}/workers/{workerId}', 'GymWorkerController@index');
+Route::post('/gym/{slug}/workers/store', 'GymWorkerController@store');
+Route::put('/gym/{slug}/workers/{workerId}/update', 'GymWorkerController@update');
+Route::delete('/gym/{slug}/workers/{workerId}/delete', 'GymWorkerController@delete');
 
 Route::get('/permissions-category', 'PermissionsCategoryController@all');
 Route::post('/permissions-category/store', 'PermissionsCategoryController@store');
@@ -41,10 +43,17 @@ Route::post('/permissions/store', 'PermissionsController@store');
 Route::put('/permissions/{permId}/update', 'PermissionsController@update');
 Route::delete('/permissions/{permId}/delete', 'PermissionsController@delete');
 
-Route::get('/gym/{gymId}/positions/', 'GymPositionsController@all');
-Route::post('/gym/{gymId}/positions/store', 'GymPositionsController@store');
-Route::put('/gym/{gymId}/positions/{positionId}/update', 'GymPositionsController@update');
-Route::delete('/gym/{gymId}/positions/{positionId}/delete', 'GymPositionsController@delete');
+Route::get('/gym/{slug}/positions/', 'GymPositionsController@all');
+Route::get('/gym/{slug}/positions/{positionId}', 'GymPositionsController@index');
+Route::post('/gym/{slug}/positions/store', 'GymPositionsController@store');
+Route::put('/gym/{slug}/positions/{positionId}/update', 'GymPositionsController@update');
+Route::delete('/gym/{slug}/positions/{positionId}/delete', 'GymPositionsController@delete');
+
+Route::get('/gym/{slug}/equipaments/', 'GymEquipamentsController@all');
+Route::get('/gym/{slug}/equipaments/{equipId}', 'GymEquipamentsController@index');
+Route::post('/gym/{slug}/equipaments/store', 'GymEquipamentsController@store');
+Route::put('/gym/{slug}/equipaments/{equipId}/update', 'GymEquipamentsController@update');
+Route::delete('/gym/{slug}/equipaments/{equipId}/delete', 'GymEquipamentsController@delete');
 
 Route::group(['middleware' => 'auth:api'], function () {
 
