@@ -55,6 +55,17 @@ Route::post('/gym/{slug}/equipaments/store', 'GymEquipamentsController@store');
 Route::put('/gym/{slug}/equipaments/{equipId}/update', 'GymEquipamentsController@update');
 Route::delete('/gym/{slug}/equipaments/{equipId}/delete', 'GymEquipamentsController@delete');
 
+Route::get('/gym/{slug}/exercises/', 'GymExercisesController@all');
+Route::get('/gym/{slug}/exercises/{exerciseId}', 'GymExercisesController@index');
+Route::post('/gym/{slug}/exercises/store', 'GymExercisesController@store');
+Route::put('/gym/{slug}/exercises/{exerciseId}/update', 'GymExercisesController@update');
+Route::delete('/gym/{slug}/exercises/{exerciseId}/delete', 'GymExercisesController@delete');
+
+Route::get('/gym/{slug}/exercises-category/', 'GymExercisesCategoryController@all');
+Route::post('/gym/{slug}/exercises-category/store', 'GymExercisesCategoryController@store');
+Route::put('/gym/{slug}/exercises-category/{exerciseCatId}/update', 'GymExercisesCategoryController@update');
+Route::delete('/gym/{slug}/exercises-category/{exerciseCatId}/delete', 'GymExercisesCategoryController@delete');
+
 Route::group(['middleware' => 'auth:api'], function () {
 
 

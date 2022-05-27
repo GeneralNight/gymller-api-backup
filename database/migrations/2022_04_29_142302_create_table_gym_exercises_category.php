@@ -13,7 +13,7 @@ class CreateTableGymExercisesCategory extends Migration
      */
     public function up()
     {
-        Schema::create('gym_exercises_category', function (Blueprint $table) {
+        Schema::create('gym_exercises_categories', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('gym_id');
             $table->string('description');
@@ -30,6 +30,6 @@ class CreateTableGymExercisesCategory extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('gym_exercises_category');
+        Schema::dropIfExists('gym_exercises_categories');
     }
 }

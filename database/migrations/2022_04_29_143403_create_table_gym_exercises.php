@@ -23,7 +23,7 @@ class CreateTableGymExercises extends Migration
             $table->timestamps();
 
             $table->foreign("gym_id")->references("id")->on("gyms");
-            $table->foreign("exercise_category_id")->references("id")->on("gym_exercises_category");
+            $table->foreign("exercise_category_id")->references("id")->on("gym_exercises_categories");
         });
     }
 

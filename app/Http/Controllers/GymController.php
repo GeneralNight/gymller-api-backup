@@ -24,6 +24,8 @@ class GymController extends Controller
 
         $gymExist = Gym::where("slug",$data["slug"])->first();
 
+
+
         if($gymExist) {
             return response()->json([
                 "msg"=> "error",
