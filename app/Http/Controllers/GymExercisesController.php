@@ -101,7 +101,7 @@ class GymExercisesController extends Controller
         ]);
     }
 
-    public function update($slug, Request $request, $exerciseId) {
+    public function update($slug, $exerciseId, Request $request) {
         $data = $request->all();
         $gymExist = Gym::where("slug",$slug)->first();
 
@@ -142,7 +142,8 @@ class GymExercisesController extends Controller
         }
 
         $exerciseExist->name = $data['name'];
-        $exerciseExist->number = $data['number'];
+        $exerciseExist->exercise_category_id = $data['exercise_category_id'];
+        $exerciseExist->description = $data['description'];
         $exerciseExist->status = $data['status'];
 
         return response()->json([
