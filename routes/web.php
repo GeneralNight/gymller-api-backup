@@ -25,7 +25,6 @@ Route::group(['prefix' => ''], function ($router) {
 });
 
 Route::group(['prefix' => 'user'], function ($router) {
-
     Route::post('login', 'Auth\UserAuthController@login');
     Route::post('logout', 'Auth\UserAuthController@logout');
     Route::post('validateToken', 'Auth\UserAuthController@validateToken');
@@ -82,6 +81,11 @@ Route::delete('/gym/{slug}/exercises-category/{exerciseCatId}/delete', 'GymExerc
 
 
 Route::post('/user/store', 'ClientController@store');
+
+Route::get('/gym/{slug}/students', 'ClientGymController@all');
+
+Route::get('/gym/{slug}/students/notConnected', 'ClientController@all');
+
 
 
 

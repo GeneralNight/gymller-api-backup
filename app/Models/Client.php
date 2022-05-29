@@ -43,4 +43,8 @@ class Client extends Model implements AuthenticatableContract, AuthorizableContr
     {
         return [];
     }
+
+    public function gym() {
+        return $this->belongsTo(ClientGym::class);
+    }
 }
