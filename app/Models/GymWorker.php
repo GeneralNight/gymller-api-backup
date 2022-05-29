@@ -10,7 +10,9 @@ use Illuminate\Database\Eloquent\Model;
 use Laravel\Lumen\Auth\Authorizable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class GymWorker extends Model
+
+
+class GymWorker extends Model implements AuthenticatableContract, AuthorizableContract, JWTSubject
 {
     use Authenticatable, Authorizable, HasFactory;
 
@@ -21,7 +23,7 @@ class GymWorker extends Model
      */
     protected $fillable = [
         'gym_id','name', 'cpf', 'rg', 'cep', 'address', 'neighborhood', 'city',
-        'state', 'number', 'email', 'salary', 'phone', 'position_id', 'username', 'password'
+        'state', 'number', 'email', 'salary', 'phone', 'position_id', 'username','password',
     ];
 
     /**
@@ -33,6 +35,7 @@ class GymWorker extends Model
 
     ];
 
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -42,4 +45,5 @@ class GymWorker extends Model
     {
         return [];
     }
+
 }

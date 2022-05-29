@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Gym;
 use App\Models\GymWorker;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class GymWorkerController extends Controller
 {
@@ -17,6 +18,14 @@ class GymWorkerController extends Controller
     {
         //
     }
+
+    public function me()
+    {
+        return response()->json(
+            auth()->gymworks()
+        );
+    }
+
 
     public function all($slug) {
         $gymExist = Gym::where("slug",$slug)->count() || 0;
@@ -124,6 +133,7 @@ class GymWorkerController extends Controller
         }
 
         $data["gym_id"] = intVal($gymExist->id);
+        $data["password"] = Hash::make($data["password"]);
 
         return response()->json([
             "msg"=> "success",

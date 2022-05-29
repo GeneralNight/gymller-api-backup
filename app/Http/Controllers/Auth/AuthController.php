@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\Gym;
+use App\Models\GymWorker;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Lumen\Routing\Controller as BaseController;
+use Tymon\JWTAuth\JWTAuth;
 
 class AuthController extends BaseController
 {
@@ -24,9 +27,47 @@ class AuthController extends BaseController
      *
      * @return void
      */
-    public function login()
+    public function login(Request $request)
     {
-        $credentials = request(['email', 'password']);
+        $data = $request->all();
+//        $gym = Gym::where("slug",$data['slug'])->first();
+//
+//        if(!$gym) {
+//            return response()->json([
+//                'message'=>'invalid'
+//            ]);
+//        }
+//
+//        $user = GymWorker::where([
+//            'gym_id' => $gym->id,
+//            'username' => $data['username'],
+//            'password' => $data['password'],
+//        ])->first();
+//
+//        if(!$user) {
+//            return response()->json([
+//                'message'=>'invalid'
+//            ]);
+//        }
+//        return response()->json([
+//            'message'=> 'success'
+//        ]);
+
+        $gym = Gym::where("slug",$data["slug"])->first();
+
+        if(!$gym) {
+            return response()->json([
+                'error' => 'Unauthorized'
+            ], 401);
+        }
+
+        $data["gym_id"] = $gym->id;
+
+        $credentials = [
+            'username'=> $data["username"],
+            'password'=> $data["password"],
+            'gym_id'=> $data["gym_id"]
+        ];
         if (! $token = auth()->attempt($credentials)) {
             return response()->json([
                 'error' => 'Unauthorized'
@@ -55,8 +96,8 @@ class AuthController extends BaseController
     {
         auth()->logout();
         return response()->json([
-            'message' => 'Logout with success!'
-        ], 401);
+            'message' => 'success'
+        ], 200);
     }
 
     /**
@@ -70,7 +111,8 @@ class AuthController extends BaseController
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 600 // default 1 hour
+            'expires_in' => auth()->factory()->getTTL() * 600, // default 1 hour
+            'me' => auth()->user()
         ]);
     }
 }

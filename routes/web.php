@@ -2,6 +2,7 @@
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -17,7 +18,12 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-Route::get('/login', 'Auth\AuthController@login');
+Route::group(['prefix' => ''], function ($router) {
+    Route::post('login', 'Auth\AuthController@login');
+    Route::post('logout', 'Auth\AuthController@logout');
+    Route::post('validateToken', 'Auth\AuthController@validateToken');
+});
+
 
 Route::post('/gym/store', 'GymController@store');
 
@@ -66,7 +72,4 @@ Route::post('/gym/{slug}/exercises-category/store', 'GymExercisesCategoryControl
 Route::put('/gym/{slug}/exercises-category/{exerciseCatId}/update', 'GymExercisesCategoryController@update');
 Route::delete('/gym/{slug}/exercises-category/{exerciseCatId}/delete', 'GymExercisesCategoryController@delete');
 
-Route::group(['middleware' => 'auth:api'], function () {
 
-
-});
