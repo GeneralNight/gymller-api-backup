@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class ClientController extends Controller
 {
@@ -47,6 +48,8 @@ class ClientController extends Controller
                 "code" => 003
             ]);
         }
+
+        $data["password"] = Hash::make($data["password"]);
 
         return response()->json([
             "msg"=> "success",

@@ -19,13 +19,6 @@ class GymWorkerController extends Controller
         //
     }
 
-    public function me()
-    {
-        return response()->json(
-            auth()->gymworks()
-        );
-    }
-
 
     public function all($slug) {
         $gymExist = Gym::where("slug",$slug)->count() || 0;

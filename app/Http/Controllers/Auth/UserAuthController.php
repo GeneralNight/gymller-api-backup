@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\Client;
 use App\Models\Gym;
 use App\Models\GymWorker;
 use App\Models\User;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Tymon\JWTAuth\JWTAuth;
 
-class AuthController extends BaseController
+class UserAuthController extends BaseController
 {
     /**
      * Create a new AuthController instance.
@@ -19,7 +20,7 @@ class AuthController extends BaseController
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth2:api2', ['except' => ['login']]);
     }
 
     /**
@@ -31,33 +32,38 @@ class AuthController extends BaseController
     {
         $data = $request->all();
 
-        if(!$data["slug"]) {
+        $client = Client::where("username",$data["username"])->first();
+
+        if(!$client) {
             return response()->json([
                 'error' => 'Unauthorized'
             ], 401);
         }
 
-        $gym = Gym::where("slug",$data["slug"])->first();
-
-        if(!$gym) {
+        if (!Hash::check($data['password'], $client['password'])) {
             return response()->json([
                 'error' => 'Unauthorized'
             ], 401);
         }
 
-        $data["gym_id"] = $gym->id;
+        return response()->json([
+                'msg' => 'success',
+                'me' => $client
+        ]);
 
-        $credentials = [
-            'username'=> $data["username"],
-            'password'=> $data["password"],
-            'gym_id'=> $data["gym_id"]
-        ];
-        if (!$token = auth()->attempt($credentials)) {
-            return response()->json([
-                'error' => 'Unauthorized'
-            ], 401);
-        }
-        return $this->respondWithToken($token);
+//        $token = $client->create('AuthToken')->accessToken;
+
+
+//        $credentials = [
+//            'username'=> $data["username"],
+//            'password'=> $data["password"],
+//        ];
+//        if (!$token = auth()->attempt($credentials)) {
+//            return response()->json([
+//                'error' => 'Unauthorized'
+//            ], 401);
+//        }
+//        return $this->respondWithToken($token);
     }
 
     /**

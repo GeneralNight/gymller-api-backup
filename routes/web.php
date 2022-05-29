@@ -24,6 +24,14 @@ Route::group(['prefix' => ''], function ($router) {
     Route::post('validateToken', 'Auth\AuthController@validateToken');
 });
 
+Route::group(['prefix' => 'user'], function ($router) {
+
+    Route::post('login', 'Auth\UserAuthController@login');
+    Route::post('logout', 'Auth\UserAuthController@logout');
+    Route::post('validateToken', 'Auth\UserAuthController@validateToken');
+});
+
+
 
 Route::post('/gym/store', 'GymController@store');
 
