@@ -81,6 +81,7 @@ Route::delete('/gym/{slug}/exercises-category/{exerciseCatId}/delete', 'GymExerc
 
 
 Route::post('/user/store', 'ClientController@store');
+Route::get('/user/{clientId}/gyms/', 'ClientGymController@clientAllGyms');
 
 Route::get('/gym/{slug}/students', 'ClientGymController@all');
 

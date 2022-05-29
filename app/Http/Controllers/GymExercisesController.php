@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Gym;
 use App\Models\GymExercises;
+use App\Models\GymExercisesEquipament;
 use Illuminate\Http\Request;
 
 
@@ -176,10 +177,19 @@ class GymExercisesController extends Controller
             ]);
         }
 
+        $EquipamentsOfExercise = GymExercisesEquipament::where("exercise_id",$exerciseExist->id)->first();
+
+        if($EquipamentsOfExercise) {
+            return response()->json([
+                "msg"=> "error",
+                "data"=> "There's equipaments that depends this exercise.",
+                "code"=> "003"
+            ]);
+        }
+
         return response()->json([
-            "msg"=> "error",
-            "data"=> "There's equipaments that depends this exercise.",
-            "code"=> "003"
+            "msg"=> "success",
+            "data"=> GymExercises::find($exerciseExist->id)->delete(),
         ]);
 
 

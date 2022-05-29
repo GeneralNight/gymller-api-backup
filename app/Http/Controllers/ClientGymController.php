@@ -36,6 +36,23 @@ class ClientGymController extends Controller
         ]);
     }
 
+    public function clientAllGyms($clientId) {
+        $client = Client::where("id",$clientId)->first();
+
+        if(!$client) {
+            return response()->json([
+                "msg"=> "error",
+                "data"=> "There's any client with this id",
+                "code"=> "001"
+            ]);
+        }
+
+        return response()->json([
+            'msg' => 'success',
+            'data' => ClientGym::where(["client_id"=>$client->id])->join("gyms","gyms.id","=","client_gyms.gym_id")->get()
+        ]);
+    }
+
     public function store($slug,$studentId) {
         $gymExist = Gym::where("slug",$slug)->first();
 
@@ -62,6 +79,19 @@ class ClientGymController extends Controller
             "client_id" => $student->id,
             "status" => true
         ];
+
+        if($clientExist = ClientGym::where([
+            "client_id" => $student->id,
+            "gym_id" => $gymExist->id
+        ])->first()) {
+            return response()->json([
+                'msg' => 'success',
+                'data' => ClientGym::where([
+                    "client_id" => $student->id,
+                    "gym_id" => $gymExist->id
+                ])->update(['status'=>true]),
+            ]);
+        }
 
         return response()->json([
             'msg' => 'success',

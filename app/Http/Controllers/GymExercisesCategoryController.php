@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Gym;
+use App\Models\GymExercises;
 use App\Models\GymExercisesCategory;
 use Illuminate\Http\Request;
 
@@ -142,10 +143,19 @@ class GymExercisesCategoryController extends Controller
             ]);
         }
 
+        $exercisesOfCategory = GymExercises::where("exercise_category_id",$exerciseCatExist->id)->first();
+        if($exercisesOfCategory) {
+            return response()->json([
+                "msg"=> "error",
+                "data"=> "There's equipaments that depends this exercise.",
+                "code"=> "003"
+            ]);
+        }
+
+
         return response()->json([
-            "msg"=> "error",
-            "data"=> "There's equipaments that depends this exercise.",
-            "code"=> "003"
+            "msg"=> "success",
+            "data"=> GymExercisesCategory::find($exerciseCatId)->delete(),
         ]);
 
 
