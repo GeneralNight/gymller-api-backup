@@ -85,6 +85,8 @@ Route::post('/user/store', 'ClientController@store');
 Route::get('/gym/{slug}/students', 'ClientGymController@all');
 
 Route::get('/gym/{slug}/students/notConnected', 'ClientController@all');
+Route::post('/gym/{slug}/students/{studentId}/connect-gym', 'ClientGymController@store');
+Route::delete('/gym/{slug}/students/{studentId}/disconnect-gym', 'ClientGymController@delete');
 
 
 

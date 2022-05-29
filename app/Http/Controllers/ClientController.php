@@ -39,7 +39,8 @@ class ClientController extends Controller
         for($i=0;$i<count($allClients);$i++) {
             if(!ClientGym::where([
                 "client_id"=>$allClients[$i]->id,
-                "gym_id"=>$gymExist->id
+                "gym_id"=>$gymExist->id,
+                "status"=>true
             ])->first()) {
                 array_push($clientsFiltred,$allClients[$i]);
             }

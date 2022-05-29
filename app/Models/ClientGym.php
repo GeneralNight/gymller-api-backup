@@ -20,7 +20,7 @@ class ClientGym extends Model
      * @var array
      */
     protected $fillable = [
-        'client_id', 'gym_id'
+        'client_id', 'gym_id','status'
     ];
 
     /**
@@ -41,4 +41,5 @@ class ClientGym extends Model
     {
         return [];
     }
+
 }

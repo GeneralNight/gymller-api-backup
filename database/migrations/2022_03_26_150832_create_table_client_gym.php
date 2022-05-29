@@ -17,6 +17,7 @@ class CreateTableClientGym extends Migration
             $table->id();
             $table->unsignedBigInteger("gym_id");
             $table->unsignedBigInteger("client_id");
+            $table->boolean("status");
             $table->timestamps();
 
             $table->foreign("gym_id")->references("id")->on("gyms");
