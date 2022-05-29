@@ -20,6 +20,7 @@ class AuthController extends BaseController
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api2', ['except' => ['login']]);
     }
 
     /**
@@ -68,7 +69,7 @@ class AuthController extends BaseController
             'password'=> $data["password"],
             'gym_id'=> $data["gym_id"]
         ];
-        if (! $token = auth()->attempt($credentials)) {
+        if (!$token = auth()->attempt($credentials)) {
             return response()->json([
                 'error' => 'Unauthorized'
             ], 401);

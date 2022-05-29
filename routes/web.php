@@ -73,3 +73,7 @@ Route::put('/gym/{slug}/exercises-category/{exerciseCatId}/update', 'GymExercise
 Route::delete('/gym/{slug}/exercises-category/{exerciseCatId}/delete', 'GymExercisesCategoryController@delete');
 
 
+Route::post('/user/store', 'ClientController@store');
+
+
+

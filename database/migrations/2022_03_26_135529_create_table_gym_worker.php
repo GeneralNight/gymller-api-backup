@@ -45,6 +45,6 @@ class CreateTableGymWorker extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('gym_worker');
+        Schema::dropIfExists('gym_workers');
     }
 }
