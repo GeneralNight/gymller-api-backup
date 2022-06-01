@@ -90,5 +90,8 @@ Route::post('/gym/{slug}/students/{studentId}/connect-gym', 'ClientGymController
 Route::delete('/gym/{slug}/students/{studentId}/disconnect-gym', 'ClientGymController@delete');
 
 
+Route::get('/gym/{slug}/exercises/{exerciseId}/equipaments/', 'GymExercisesEquipamentController@all');
+
+
 
 

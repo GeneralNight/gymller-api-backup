@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Laravel\Lumen\Auth\Authorizable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class GymExercisesEquipament extends Model
+class ClientGymTrainingSheetExercise extends Model
 {
     use Authenticatable, Authorizable, HasFactory;
 
@@ -20,7 +20,7 @@ class GymExercisesEquipament extends Model
      * @var array
      */
     protected $fillable = [
-        'gym_id', 'equipament_id', 'exercise_id'
+        'training_sheet_id', 'exercise_id','series','repetitions'
     ];
 
     /**
@@ -40,13 +40,5 @@ class GymExercisesEquipament extends Model
     public function getJWTCustomClaims()
     {
         return [];
-    }
-
-    public function exercises() {
-        return $this->belongsTo(GymExercises::class);
-    }
-
-    public function equipaments() {
-        return $this->belongsTo(GymEquipaments::class);
     }
 }
