@@ -41,4 +41,6 @@ class GymEquipaments extends Model
     {
         return [];
     }
+
+
 }

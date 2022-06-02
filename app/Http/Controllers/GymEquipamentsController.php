@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Gym;
 use App\Models\GymEquipaments;
+use App\Models\GymExercises;
 use App\Models\GymExercisesEquipament;
 use Illuminate\Http\Request;
 
@@ -220,6 +221,51 @@ class GymEquipamentsController extends Controller
 
 
     }
+
+    public function exercisesNotRelated($slug,$exerciseId) {
+        $gymExist = Gym::where("slug",$slug)->first();
+
+        if(!$gymExist) {
+            return response()->json([
+                "msg"=> "error",
+                "data"=> "There's any gym with this id",
+                "code"=> "001"
+            ]);
+        }
+
+        $exerciseExist = GymExercises::where([
+            'gym_id' => intval($gymExist->id),
+            'id' => intval($exerciseId)
+        ])->first();
+
+        if(!$exerciseExist) {
+            return response()->json([
+                "msg"=> "error",
+                "data"=> "There's any exercise with this id",
+                "code"=> "002"
+            ]);
+        }
+
+//        $crashedCarIds = GymExercisesEquipament::all();
+        $equips = GymEquipaments::get();
+        $newArr = [];
+        for($i=0;$i<count($equips);$i++) {
+            if(!GymExercisesEquipament::where([
+                "equipament_id"=>$equips[$i]["id"],
+                "exercise_id"=> $exerciseId
+            ])->first()) {
+                $newArr[] = GymEquipaments::where([
+                    "id" => $equips[$i]["id"]
+                ])->first();
+            }
+        }
+
+        return response()->json([
+           "msg" => "success",
+           "data" => $newArr
+        ]);
+    }
+
 
     //
 }

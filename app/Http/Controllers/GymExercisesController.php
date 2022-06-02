@@ -191,8 +191,26 @@ class GymExercisesController extends Controller
             "msg"=> "success",
             "data"=> GymExercises::find($exerciseExist->id)->delete(),
         ]);
+    }
 
+    public function getExerciseName($slug,$exerciseId) {
+        $gymExist = Gym::where("slug",$slug)->first();
 
+        if(!$gymExist) {
+            return response()->json([
+                "msg"=> "error",
+                "data"=> "There's any gym with this id",
+                "code"=> "001"
+            ]);
+        }
+
+        return response()->json([
+            "msg"=> "success",
+            "data"=> GymExercises::where([
+                "gym_id" => $gymExist->id,
+                "id" => $exerciseId
+            ])->first(),
+        ]);
     }
 
     //

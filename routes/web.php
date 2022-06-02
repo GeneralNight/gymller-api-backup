@@ -69,6 +69,7 @@ Route::put('/gym/{slug}/equipaments/{equipId}/update', 'GymEquipamentsController
 Route::delete('/gym/{slug}/equipaments/{equipId}/delete', 'GymEquipamentsController@delete');
 
 Route::get('/gym/{slug}/exercises/', 'GymExercisesController@all');
+Route::get('/gym/{slug}/exercises/{exerciseId}/name', 'GymExercisesController@getExerciseName');
 Route::get('/gym/{slug}/exercises/{exerciseId}', 'GymExercisesController@index');
 Route::post('/gym/{slug}/exercises/store', 'GymExercisesController@store');
 Route::put('/gym/{slug}/exercises/{exerciseId}/update', 'GymExercisesController@update');
@@ -92,6 +93,8 @@ Route::delete('/gym/{slug}/students/{studentId}/disconnect-gym', 'ClientGymContr
 
 Route::get('/gym/{slug}/exercises/{exerciseId}/equipaments/', 'GymExercisesEquipamentController@all');
 
-
+Route::get('/gym/{slug}/equipaments/not-related-exercise/{exerciseId}', 'GymEquipamentsController@exercisesNotRelated');
+Route::post('/gym/{slug}/equipaments/exercises-equipament/{exerciseId}/store', 'GymExercisesEquipamentController@store');
+Route::delete('/gym/{slug}/equipaments/{exerciseId}/exercises-equipament/{equipId}/delete', 'GymExercisesEquipamentController@delete');
 
 
